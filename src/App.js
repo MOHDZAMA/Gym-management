@@ -1,3 +1,5 @@
+// id:-admin1@gmail.com , password:-password
+
 import "./App.css";
 import Home from "./components/Home/Home";
 
