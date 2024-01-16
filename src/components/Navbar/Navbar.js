@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   MdOutlineLightMode,
   MdOutlineDarkMode,
   MdNotificationsNone,
-  MdMenu,
 } from "react-icons/md";
 
 import "./Navbar.css";
@@ -12,28 +11,59 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 
 const Navbar = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [theam, setTheam] = useState(false);
+
+  const toggleTheam = () => {
+    setTheam(!theam);
+    // if (theam) {
+    // document.body.classList.remove("dark");
+    // } else {
+    // document.body.classList.add("dark");
+    // }
+  };
+
+  const handleImageClick = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="navbar">
       <div className="nav-left">
-        <button onClick={() => signOut(auth)}>Logout</button>
+        <h1>Admin</h1>
       </div>
 
       <div className="nav-right">
         <i>
           <MdNotificationsNone />
         </i>
-        <i>
-          <MdOutlineLightMode />
-        </i>
+        {theam ? (
+          <i>
+            <MdOutlineDarkMode onClick={toggleTheam} />
+          </i>
+        ) : (
+          <i>
+            <MdOutlineLightMode onClick={toggleTheam} />
+          </i>
+        )}
 
-        <i>
-          <MdOutlineDarkMode />
-        </i>
+        <div className="dropdown-container">
+          <img
+            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            alt=""
+            onClick={handleImageClick}
+          />
+          {isOpen && (
+            <div className="dropdown-menu">
+              <ul>
+                <li>General</li>
+                <li>Setting</li>
 
-        <img
-          src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          alt=""
-        />
+                <li onClick={() => signOut(auth)}>Logout</li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
